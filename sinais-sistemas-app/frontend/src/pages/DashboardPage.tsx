@@ -1,7 +1,6 @@
 // frontend/src/pages/DashboardPage.tsx
 
 import React from 'react';
-import './DashboardPage.css';
 
 const DashboardPage: React.FC = () => {
   return (

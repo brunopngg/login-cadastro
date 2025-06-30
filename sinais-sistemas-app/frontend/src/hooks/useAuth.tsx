@@ -1,7 +1,7 @@
 // frontend/src/hooks/useAuth.ts
 
 import { useContext } from 'react';
-import { AuthContext } from '../contexts/AuthContext'; // Importamos o contexto que acabamos de exportar
+import { AuthContext } from '../contexts/AuthContextObject'; // Importamos o contexto que acabamos de exportar
 
 // A definição do hook agora vive aqui, em seu próprio arquivo.
 export const useAuth = () => {

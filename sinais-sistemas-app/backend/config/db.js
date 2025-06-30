@@ -1,6 +1,6 @@
 // backend/config/db.js
 const { Pool } = require('pg');
-require('dotenv').config({ path: '../.env' }); // Ajuste o caminho se necessário para encontrar o .env
+require('dotenv').config();
 
 const pool = new Pool({
   user: process.env.DB_USER,
