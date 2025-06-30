@@ -20,7 +20,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess }) => {
     setError(null);
     setLoading(true);
     try {
-      const registerData: RegisterData = { username, email, password_hash: password };
+      const registerData: RegisterData = { username, email, password: password };
       const data = await AuthService.register(registerData);
       onRegisterSuccess(data);
     } catch (err) {

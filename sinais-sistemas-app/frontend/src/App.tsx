@@ -1,29 +1,32 @@
-import React, { createContext, useState } from "react";
-interface User {
-  username: string;
-}
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import DashboardPage from './pages/DashboardPage';
+import ProtectedRoute from './components/routing/ProtectedRoute';
+import './App.css';
 
-interface AuthContextType {
-  isAuthenticated: boolean;
-  user: User | null;
-  login: (username: string) => void;
-  logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-
-  const login = (username: string) => setUser({ username });
-  const logout = () => setUser(null);
-
+const App: React.FC = () => {
   return (
-    <AuthContext.Provider value={{ isAuthenticated: !!user, user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
-// If you have an App component, export it here. Otherwise, remove the export default line.
-// export default App;
+export default App;
