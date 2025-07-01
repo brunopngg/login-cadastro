@@ -1,47 +1,22 @@
 // frontend/src/pages/LoginPage.tsx
-
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import LoginForm from '../components/auth/LoginForm';
 import { useAuth } from '../hooks/useAuth';
+import type { AuthResponse } from '../interfaces/user.interface';
 
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
-    try {
-      // Simulação de login (substitua pela chamada real à API)
-      const fakeUser = {
-        user_id: 1,
-        username: 'Usuário Teste',
-        email,
-        created_at: new Date().toISOString()
-      };
-      const fakeToken = 'fake-jwt-token';
-
-      login(fakeToken, fakeUser);
-      alert('Login realizado com sucesso!');
-    } catch (error) {
-      console.error('Erro ao fazer login', error);
-    }
+  const handleLoginSuccess = (data: AuthResponse) => {
+    login(data.token, data.user);
+    navigate('/'); // Redireciona para a HomePage
   };
 
   return (
     <div>
-      <h2>Login</h2>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Senha"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleLogin}>Entrar</button>
+      <LoginForm onLoginSuccess={handleLoginSuccess} />
     </div>
   );
 };

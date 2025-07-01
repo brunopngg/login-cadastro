@@ -3,9 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
-
-// Importar a configuração do banco de dados para inicializar a conexão
-require('./config/db'); // Adicione esta linha para testar/confirmar a conexão
+const db = require('./config/db'); // Importa o objeto db inteiro
 
 // Middlewares
 app.use(cors());
@@ -18,10 +16,11 @@ app.get('/', (req, res) => {
 });
 
 // Definir Rotas da API
-app.use('/api/auth', require('./routes/auth')); // Adicione esta linha
+app.use('/api/auth', require('./routes/auth'));
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Servidor rodando na porta ${PORT} 🚀`);
+  await db.testConnection(); // <<< LINHA ADICIONADA: Testa a conexão ao iniciar
 });

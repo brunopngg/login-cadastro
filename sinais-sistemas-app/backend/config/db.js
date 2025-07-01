@@ -8,10 +8,8 @@ const pool = new Pool({
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
-});
-
-pool.on('connect', () => {
-  console.log('Conectado ao PostgreSQL! 🐘');
+  // Adiciona um timeout para a conexão
+  connectionTimeoutMillis: 5000,
 });
 
 pool.on('error', (err) => {
@@ -19,7 +17,22 @@ pool.on('error', (err) => {
   process.exit(-1);
 });
 
+// Nova função para testar a conexão
+const testConnection = async () => {
+  let client;
+  try {
+    client = await pool.connect();
+    console.log('Conectado ao PostgreSQL! 🐘');
+    client.release();
+  } catch (err) {
+    console.error('Falha ao conectar ao PostgreSQL:', err.message);
+    // Se a conexão falhar, pode ser útil fechar a aplicação para evitar mais erros.
+    // process.exit(1); 
+  }
+};
+
 module.exports = {
   query: (text, params) => pool.query(text, params),
-  pool, // Exporte o pool se precisar de transações mais complexas
+  pool,
+  testConnection, // Exporta a nova função
 };
